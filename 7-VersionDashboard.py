@@ -28,7 +28,7 @@ max_scores = {
 }
 
 # Initialize the app with a Bootstrap theme
-app = dash.Dash(__name__, external_stylesheets=[dcc.themes.SPACELAB])
+app = dash.Dash(__name__, external_stylesheets=[dash.themes.BOOTSTRAP])
 
 # App layout
 app.layout = dcc.Container([
@@ -45,7 +45,6 @@ app.layout = dcc.Container([
             multi=False,
             searchable=True
         ), width=6),
-
         dcc.Col(dcc.Dropdown(
             id='test-dropdown',
             options=[{'label': version, 'value': version} for version in df['Test'].unique()],
@@ -53,7 +52,6 @@ app.layout = dcc.Container([
             placeholder='Select Test(s)',
             className='mb-4'
         ), width=6),
-
         dcc.Col(dcc.Dropdown(
             id='country-dropdown',
             options=[{'label': country, 'value': country} for country in df['Country'].unique()],
@@ -61,7 +59,6 @@ app.layout = dcc.Container([
             placeholder='Select country(ies)',
             className='mb-4'
         ), width=6),
-
         dcc.Col(dcc.Dropdown(
             id='test-version-dropdown',
             options=[{'label': 'Select All Versions', 'value': 'ALL'}] +
@@ -75,12 +72,13 @@ app.layout = dcc.Container([
     dcc.Row([
         dcc.Col(html.Div(id='gauges-container', className='d-flex flex-wrap justify-content-center'))
     ]),
-    
+
     dcc.Row([
         dcc.Col(html.Div(id='totals-container', className='text-center mt-5'))
     ])
-], fluid=True, style={'max-width': '1100px', 'margin': '0 auto'})  # Set max-width for container
+], fluid=True, style={'max-width': '1100px', 'margin': '0 auto'})
 
+# Function definitions for wrapping text and creating gauges remain the same...
 
 # Function to wrap text at spaces
 def wrap_text(text, max_length=35):
@@ -314,9 +312,6 @@ def update_gauges_and_totals(student_search, selected_versions, selected_countri
     # Return the two sections and the test version
     return gauges, html.Div(totals_parts), test_version
 
-app = Dash(__name__)
-
 
 if __name__ == "__main__":
     app.run_server(host='0.0.0.0', port=int(os.environ.get('PORT', 8050)), debug=True)
-
