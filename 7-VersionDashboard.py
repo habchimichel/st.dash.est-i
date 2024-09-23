@@ -1,14 +1,13 @@
 import dash
-import os
-from dash import html
 from dash import dcc, html, Input, Output
+import dash_bootstrap_components as dbc
 import plotly.graph_objs as go
 import pandas as pd
-from dash import dcc
-from dash import Dash
+import dash_core_components as dcc
+import plotly.graph_objects as go
 
 # Load data
-data_path = r'Overall_Averages.xlsx'
+data_path = r'C:\Users\mhabchi\Desktop\Summary DASHBOARD\EST I\Overall_Averages.xlsx'
 df = pd.read_excel(data_path)
 
 # Define maximum scores for the columns (assuming similar columns to CODE 1)
@@ -28,16 +27,16 @@ max_scores = {
 }
 
 # Initialize the app with a Bootstrap theme
-app = dash.Dash(__name__, external_stylesheets=[dash.themes.BOOTSTRAP])
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.SPACELAB])
 
 # App layout
-app.layout = dcc.Container([
-    dcc.Row([
-        dcc.Col(html.H1("Student Performance Dashboard", className='text-center mb-4'), width=12)
+app.layout = dbc.Container([
+    dbc.Row([
+        dbc.Col(html.H1("Student Performance Dashboard", className='text-center mb-4'), width=12)
     ], className='mb-4'),
 
-    dcc.Row([
-        dcc.Col(dcc.Dropdown(
+    dbc.Row([
+        dbc.Col(dcc.Dropdown(
             id='student-search',
             options=[{'label': username, 'value': username} for username in df['Username'].unique()],
             placeholder='Search for a student by username',
@@ -45,21 +44,24 @@ app.layout = dcc.Container([
             multi=False,
             searchable=True
         ), width=6),
-        dcc.Col(dcc.Dropdown(
+
+        dbc.Col(dcc.Dropdown(
             id='test-dropdown',
             options=[{'label': version, 'value': version} for version in df['Test'].unique()],
             multi=True,
             placeholder='Select Test(s)',
             className='mb-4'
         ), width=6),
-        dcc.Col(dcc.Dropdown(
+
+        dbc.Col(dcc.Dropdown(
             id='country-dropdown',
             options=[{'label': country, 'value': country} for country in df['Country'].unique()],
             multi=True,
             placeholder='Select country(ies)',
             className='mb-4'
         ), width=6),
-        dcc.Col(dcc.Dropdown(
+
+        dbc.Col(dcc.Dropdown(
             id='test-version-dropdown',
             options=[{'label': 'Select All Versions', 'value': 'ALL'}] +
                     [{'label': version, 'value': version} for version in df['Version'].unique()],
@@ -69,16 +71,15 @@ app.layout = dcc.Container([
         ), width=6)
     ], className='mb-4'),
 
-    dcc.Row([
-        dcc.Col(html.Div(id='gauges-container', className='d-flex flex-wrap justify-content-center'))
+    dbc.Row([
+        dbc.Col(html.Div(id='gauges-container', className='d-flex flex-wrap justify-content-center'))
     ]),
-
-    dcc.Row([
-        dcc.Col(html.Div(id='totals-container', className='text-center mt-5'))
+    
+    dbc.Row([
+        dbc.Col(html.Div(id='totals-container', className='text-center mt-5'))
     ])
-], fluid=True, style={'max-width': '1100px', 'margin': '0 auto'})
+], fluid=True, style={'max-width': '1100px', 'margin': '0 auto'})  # Set max-width for container
 
-# Function definitions for wrapping text and creating gauges remain the same...
 
 # Function to wrap text at spaces
 def wrap_text(text, max_length=35):
@@ -148,11 +149,11 @@ def create_gauge_sections(filtered_df):
                 style={'display': 'inline-block', 'width': '250px', 'height': '250px', 'margin': '10px'}
             )
 
-            skill_gauges.append(dcc.Col(gauge, width=3))
+            skill_gauges.append(dbc.Col(gauge, width=3))
 
-        section = dcc.Row([
-            dcc.Col(html.H3(test, className='text-center my-4'), width=12),
-            dcc.Col(dcc.Row(skill_gauges, className='d-flex justify-content-center'), width=12),
+        section = dbc.Row([
+            dbc.Col(html.H3(test, className='text-center my-4'), width=12),
+            dbc.Col(dbc.Row(skill_gauges, className='d-flex justify-content-center'), width=12),
         ], className='mb-4', style={'border': '1px solid #dee2e6', 'padding': '15px', 'background-color': '#f8f9fa'})
 
         sections.append(section)
@@ -161,7 +162,7 @@ def create_gauge_sections(filtered_df):
 
 
 import dash_core_components as dcc
-import dash_bootstrap_components as dcc
+import dash_bootstrap_components as dbc
 import plotly.graph_objects as go
 
 # Function to create totals section divided into skill and non-skill parts
@@ -227,7 +228,7 @@ def create_totals_section(filtered_df):
             style={'display': 'inline-block', 'width': '320px', 'height': '320px', 'margin': '0px'}  # 5% larger size, 2px padding
         )
 
-        skill_gauges.append(dcc.Col(total_gauge, width=3))
+        skill_gauges.append(dbc.Col(total_gauge, width=3))
 
     for title, avg_score in avg_non_skill_scores.items():
         gauge_color = 'red' if avg_score == min_non_skill_score else 'green' if avg_score == max_non_skill_score else 'blue'
@@ -250,7 +251,7 @@ def create_totals_section(filtered_df):
             style={'display': 'inline-block', 'width': '320px', 'height': '320px', 'margin': '0px'}  # 5% larger size, 
         )
 
-        non_skill_gauges.append(dcc.Col(total_gauge, width=3))
+        non_skill_gauges.append(dbc.Col(total_gauge, width=3))
 
     # Split the gauges into two parts for skills and one part for non-skills
     half_index_skill = len(skill_gauges) // 2
@@ -259,10 +260,10 @@ def create_totals_section(filtered_df):
 
     # Return the two parts for skills, a single part for non-skills, and a line separator
     return (
-        dcc.Row(skill_part_1, className='d-flex justify-content-center', style={'margin-top': '15px'}),
-        dcc.Row(skill_part_2, className='d-flex justify-content-center', style={'margin-top': '15px'}),
+        dbc.Row(skill_part_1, className='d-flex justify-content-center', style={'margin-top': '15px'}),
+        dbc.Row(skill_part_2, className='d-flex justify-content-center', style={'margin-top': '15px'}),
         html.Hr(style={'border': '1px solid #000', 'margin': '30px 0'}),
-        dcc.Row(non_skill_gauges, className='d-flex justify-content-center', style={'margin-top': '15px'})
+        dbc.Row(non_skill_gauges, className='d-flex justify-content-center', style={'margin-top': '15px'})
     )
 
 
@@ -312,6 +313,6 @@ def update_gauges_and_totals(student_search, selected_versions, selected_countri
     # Return the two sections and the test version
     return gauges, html.Div(totals_parts), test_version
 
-
-if __name__ == "__main__":
-    app.run_server(host='0.0.0.0', port=int(os.environ.get('PORT', 8050)), debug=True)
+# Run the app
+if __name__ == '__main__':
+    app.run_server(debug=True)
