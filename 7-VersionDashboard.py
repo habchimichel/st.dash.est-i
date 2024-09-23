@@ -28,7 +28,7 @@ max_scores = {
 }
 
 # Initialize the app with a Bootstrap theme
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.SPACELAB])
+app = Dash(__name__, external_stylesheets=[dbc.themes.SPACELAB])
 
 # App layout
 app.layout = dbc.Container([
@@ -314,6 +314,6 @@ def update_gauges_and_totals(student_search, selected_versions, selected_countri
     # Return the two sections and the test version
     return gauges, html.Div(totals_parts), test_version
 
-# Run the app
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     app.run_server(debug=True)
