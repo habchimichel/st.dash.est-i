@@ -3,3 +3,4 @@ pandas
 dash
 gunicorn
 dash-bootstrap-components
+dash_core_components
