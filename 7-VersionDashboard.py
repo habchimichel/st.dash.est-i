@@ -314,9 +314,7 @@ def update_gauges_and_totals(student_search, selected_versions, selected_countri
     return gauges, html.Div(totals_parts), test_version
 
 app = dash.Dash(__name__)
-server = app.server  # Expose the server variable
 
-# Define your app layout and callbacks here
 
 if __name__ == "__main__":
-    app.run_server(debug=True)
+    app.run_server(host='0.0.0.0', port=int(os.environ.get('PORT', 8050)), debug=True)
