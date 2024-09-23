@@ -3,5 +3,6 @@ pandas
 dash
 openpyxl
 gunicorn
-dash-bootstrap-components
-dash_core_components
+from dash import html
+from dash import dcc
+from dash import dbc
