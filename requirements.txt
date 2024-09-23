@@ -3,5 +3,3 @@ pandas
 dash
 openpyxl
 gunicorn
-from dash import dcc
-
