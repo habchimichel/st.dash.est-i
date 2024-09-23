@@ -1,1 +1,1 @@
-web: gunicorn 7-VersionDashboard:server
+web: gunicorn 7-VersionDashboard:app
