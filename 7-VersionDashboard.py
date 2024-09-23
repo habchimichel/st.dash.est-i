@@ -1,4 +1,5 @@
 import dash
+from dash import html
 from dash import dcc, html, Input, Output
 import dash_bootstrap_components as dbc
 import plotly.graph_objs as go
@@ -312,6 +313,10 @@ def update_gauges_and_totals(student_search, selected_versions, selected_countri
     # Return the two sections and the test version
     return gauges, html.Div(totals_parts), test_version
 
-# Run the app
-if __name__ == '__main__':
+app = dash.Dash(__name__)
+server = app.server  # Expose the server variable
+
+# Define your app layout and callbacks here
+
+if __name__ == "__main__":
     app.run_server(debug=True)
