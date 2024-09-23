@@ -4,8 +4,6 @@ import dash_bootstrap_components as dbc
 import plotly.graph_objs as go
 import pandas as pd
 import dash_core_components as dcc
-import dash_bootstrap_components as dbc
-import plotly.graph_objects as go
 
 # Load data
 data_path = r'Overall_Averages.xlsx'
