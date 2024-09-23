@@ -1,10 +1,11 @@
 import dash
-from dash import dcc, html, Input, Output
+import os
+from dash import html
 import dash_bootstrap_components as dbc
+from dash import dcc, Input, Output
 import plotly.graph_objs as go
 import pandas as pd
-import dash_core_components as dcc
-import plotly.graph_objects as go
+from dash import Dash
 
 # Load data
 data_path = r'Overall_Averages.xlsx'
