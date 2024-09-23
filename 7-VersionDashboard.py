@@ -1,10 +1,11 @@
 import dash
+import os
 from dash import html
-from dash import dcc, html, Input, Output
-import dash_bootstrap_components as dbc
+from dash import dcc, dbc, html, Input, Output
 import plotly.graph_objs as go
 import pandas as pd
 from dash import dcc
+from dash import Dash
 
 # Load data
 data_path = r'Overall_Averages.xlsx'
@@ -313,8 +314,9 @@ def update_gauges_and_totals(student_search, selected_versions, selected_countri
     # Return the two sections and the test version
     return gauges, html.Div(totals_parts), test_version
 
-app = dash.Dash(__name__)
+app = Dash(__name__)
 
 
 if __name__ == "__main__":
     app.run_server(host='0.0.0.0', port=int(os.environ.get('PORT', 8050)), debug=True)
+
