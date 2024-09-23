@@ -1,0 +1,39 @@
+name: Deploy DotNet project to Azure Function App
+
+on:
+  push:
+    branches: ["main"]
+
+env:
+  AZURE_FUNCTIONAPP_NAME: 'your-app-name'   # Set your function app name here
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'       # Path to your function app project
+  DOTNET_VERSION: '6.0.x'                   # Specify .NET version
+
+jobs:
+  build-and-deploy:
+    runs-on: windows-latest # Change to ubuntu-latest for Linux
+    environment: dev
+    steps:
+      - name: 'Checkout Code'
+        uses: actions/checkout@v4
+
+      - name: Setup DotNet ${{ env.DOTNET_VERSION }} Environment
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: 'Resolve Project Dependencies Using Dotnet'
+        shell: pwsh # Use bash for Linux
+        run: |
+          pushd '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+          dotnet restore  # Restore dependencies
+          dotnet build --configuration Release --output ./output
+          popd
+
+      - name: 'Run Azure Functions Action'
+        uses: Azure/functions-action@v1
+        id: fa
+        with:
+          app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
+          package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
+          publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }} # Use publish profile for deployment
