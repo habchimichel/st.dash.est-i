@@ -1,11 +1,10 @@
 import dash
-import os
-from dash import html
+from dash import dcc, html, Input, Output
 import dash_bootstrap_components as dbc
-from dash import dcc, Input, Output
 import plotly.graph_objs as go
 import pandas as pd
-from dash import Dash
+import dash_core_components as dcc
+import plotly.graph_objects as go
 
 # Load data
 data_path = r'Overall_Averages.xlsx'
@@ -28,7 +27,7 @@ max_scores = {
 }
 
 # Initialize the app with a Bootstrap theme
-app = Dash(__name__, external_stylesheets=[dbc.themes.SPACELAB])
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.SPACELAB])
 
 # App layout
 app.layout = dbc.Container([
@@ -314,6 +313,6 @@ def update_gauges_and_totals(student_search, selected_versions, selected_countri
     # Return the two sections and the test version
     return gauges, html.Div(totals_parts), test_version
 
-
-if __name__ == "__main__":
+# Run the app
+if __name__ == '__main__':
     app.run_server(debug=True)
